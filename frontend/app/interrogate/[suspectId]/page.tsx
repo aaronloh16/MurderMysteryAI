@@ -1,13 +1,12 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { suspects } from '@/data/suspects';
 
 import {
 	LiveKitRoom,
-
-
 	RoomAudioRenderer,
-
 	AgentState,
 } from '@livekit/components-react';
 import { useCallback, useState } from 'react';
@@ -23,12 +22,15 @@ import { onDeviceFailure } from '@/utils/deviceFailure';
  * Uses dynamic routing to load specific suspect data
  *
  * @example
- * When user visits /interrogate/alex, params.suspectId will be "alex"
+ * When user visits /interrogate/alex, params.suspectId will be "alex", "sarah", etc.
  */
 export default function InterrogationPage() {
 	const router = useRouter();
 	const params = useParams();
-	const suspectId = params.suspectId as string; // This will be "alex", "sarah", etc.
+	const suspectId = params.suspectId as string;
+
+	// Get suspect data
+	const suspect = suspects[suspectId];
 
 	// State to store LiveKit connection information
 	const [connectionDetails, updateConnectionDetails] = useState<
@@ -76,34 +78,55 @@ export default function InterrogationPage() {
 				</button>
 			</header>
 
-			{/* Display which suspect we're interrogating */}
-			<div className="text-center py-4">
-				<h1 className="text-xl">Interrogating Suspect: {suspectId}</h1>
-			</div>
+			<div className="flex flex-col md:flex-row min-h-[calc(100vh-64px)]">
+				{/* Left side - Suspect Image and Info */}
+				<div className="md:w-1/2 relative">
+					<div className="relative h-full">
+						<Image
+							src={`/images/suspects/${suspectId}.webp`}
+							alt={suspect.name}
+							fill
+							className="object-cover"
+							priority
+						/>
+						{/* Dark gradient overlay */}
+						<div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent" />
 
-			{/* Main Content */}
-			<main className="container mx-auto px-4 py-8">
-				<LiveKitRoom
-					token={connectionDetails?.participantToken}
-					serverUrl={connectionDetails?.serverUrl}
-					connect={connectionDetails !== undefined}
-					audio={true}
-					video={false}
-					onMediaDeviceFailure={onDeviceFailure}
-					onDisconnected={() => {
-						updateConnectionDetails(undefined);
-					}}
-					className="grid grid-rows-[2fr_1fr] items-center gap-8"
-				>
-					<SimpleVoiceAssistant onStateChange={setAgentState} />
-					<ControlBar
-						onConnectButtonClicked={onConnectButtonClicked}
-						agentState={agentState}
-					/>
-					<RoomAudioRenderer />
-					<NoAgentNotification state={agentState} />
-				</LiveKitRoom>
-			</main>
+						{/* Suspect info positioned at bottom */}
+						<div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+							<h1 className="text-2xl font-bold mb-2">{suspect.name}</h1>
+							<p className="text-gray-300 mb-2">{suspect.role}</p>
+							<p className="text-gray-400 text-sm">
+								{suspect.context.background}
+							</p>
+						</div>
+					</div>
+				</div>
+
+				{/* Right side - Voice Interface */}
+				<div className="md:w-1/2 bg-gray-900 p-6">
+					<LiveKitRoom
+						token={connectionDetails?.participantToken}
+						serverUrl={connectionDetails?.serverUrl}
+						connect={connectionDetails !== undefined}
+						audio={true}
+						video={false}
+						onMediaDeviceFailure={onDeviceFailure}
+						onDisconnected={() => {
+							updateConnectionDetails(undefined);
+						}}
+						className="flex flex-col justify-center h-full gap-8"
+					>
+						<SimpleVoiceAssistant onStateChange={setAgentState} />
+						<ControlBar
+							onConnectButtonClicked={onConnectButtonClicked}
+							agentState={agentState}
+						/>
+						<RoomAudioRenderer />
+						<NoAgentNotification state={agentState} />
+					</LiveKitRoom>
+				</div>
+			</div>
 		</div>
 	);
 }
