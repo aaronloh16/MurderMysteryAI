@@ -1,31 +1,12 @@
+import { suspects } from '@/data/suspects';
+import { SuspectCard } from '@/components/suspects/SuspectCard';
+
 /**
  * Story Page Component
  * Displays the murder story and list of suspects
  * Users can click on suspects to begin interrogation
  */
 export default function StoryPage() {
-	// We can move this to a separate data file later
-	const suspects = [
-		{
-			id: 'alex',
-			name: 'Alex Thompson',
-			role: 'Business Partner',
-			description: 'A long-time business partner with a recent falling out.',
-		},
-		{
-			id: 'sarah',
-			name: 'Sarah Richardson',
-			role: "Victim's Wife",
-			description: "The victim's wife who stands to inherit his fortune.",
-		},
-		{
-			id: 'james',
-			name: 'James Butler',
-			role: 'House Staff',
-			description: 'The butler who discovered the body.',
-		},
-	];
-
 	return (
 		<div className="min-h-screen bg-gray-900 text-white p-6">
 			<div className="max-w-7xl mx-auto">
@@ -55,7 +36,8 @@ export default function StoryPage() {
 						<div className="bg-gray-800 rounded-lg p-6">
 							<h2 className="text-xl font-bold mb-4">Suspects</h2>
 							<div className="grid gap-4">
-								{suspects.map((suspect) => (
+								{/* Use Object.values to convert the suspects object to an array */}
+								{Object.values(suspects).map((suspect) => (
 									<SuspectCard
 										key={suspect.id}
 										id={suspect.id}
@@ -69,36 +51,6 @@ export default function StoryPage() {
 					</div>
 				</div>
 			</div>
-		</div>
-	);
-}
-
-/**
- * SuspectCard Component
- * Displays information about a suspect and links to their interrogation
- */
-function SuspectCard({
-	id,
-	name,
-	role,
-	description,
-}: {
-	id: string;
-	name: string;
-	role: string;
-	description: string;
-}) {
-	return (
-		<div className="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-colors">
-			<h3 className="text-lg font-semibold">{name}</h3>
-			<p className="text-sm text-gray-400 mb-2">{role}</p>
-			<p className="text-sm text-gray-300 mb-4">{description}</p>
-			<a
-				href={`/interrogate/${id}`}
-				className="inline-block bg-red-700 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors text-sm"
-			>
-				Interrogate
-			</a>
 		</div>
 	);
 }
