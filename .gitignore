@@ -16,3 +16,17 @@ node_modules/
 # Build outputs
 dist/
 build/
+.next/
+
+# Project-specific
+memory-bank/
+.cursor/
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Local development files
+.vercel
+.turbo
