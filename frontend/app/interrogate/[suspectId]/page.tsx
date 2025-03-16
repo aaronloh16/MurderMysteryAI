@@ -14,6 +14,7 @@ import type { ConnectionDetails } from '../../api/connection-details/route';
 import { NoAgentNotification } from '@/components/NoAgentNotification';
 import { SimpleVoiceAssistant } from '@/components/interrogation/SimpleVoiceAssistant';
 import { ControlBar } from '@/components/interrogation/ControlBar';
+import { AccusationButton } from '@/components/interrogation/AccusationButton';
 import { onDeviceFailure } from '@/utils/deviceFailure';
 
 /**
@@ -44,15 +45,19 @@ export default function InterrogationPage() {
 	 * Initiates connection to LiveKit server
 	 */
 	const onConnectButtonClicked = useCallback(async () => {
-		const url = new URL(
+		// Create URL with suspectId as a query parameter
+		const baseUrl =
 			process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT ??
-				'/api/connection-details',
-			window.location.origin
-		);
+			'/api/connection-details';
+		const url = new URL(baseUrl, window.location.origin);
+
+		// Add suspectId as a query parameter
+		url.searchParams.append('suspectId', suspectId);
+
 		const response = await fetch(url.toString());
 		const connectionDetailsData = await response.json();
 		updateConnectionDetails(connectionDetailsData);
-	}, []);
+	}, [suspectId]);
 
 	return (
 		<div className="min-h-screen bg-gray-900 text-white">
@@ -124,6 +129,10 @@ export default function InterrogationPage() {
 						/>
 						<RoomAudioRenderer />
 						<NoAgentNotification state={agentState} />
+						{/* Accusation button - always visible */}
+						<div className="mt-6 flex justify-center">
+							<AccusationButton suspectId={suspectId} />
+						</div>
 					</LiveKitRoom>
 				</div>
 			</div>

@@ -6,6 +6,7 @@ export interface Suspect {
 	name: string;
 	role: string;
 	description: string;
+	isGuilty: boolean;
 	context: {
 		background: string;
 		personality: string;
@@ -23,6 +24,7 @@ export const suspects: Record<string, Suspect> = {
 		name: 'Alex Thompson',
 		role: 'Business Partner',
 		description: 'A long-time business partner with a recent falling out.',
+		isGuilty: true,
 		context: {
 			background: 'Co-founded the company with Thomas 15 years ago',
 			personality: 'Ambitious and calculating, but maintains a friendly facade',
@@ -38,6 +40,7 @@ export const suspects: Record<string, Suspect> = {
 		name: 'Sarah Richardson',
 		role: "Victim's Wife",
 		description: "The victim's wife who stands to inherit his fortune.",
+		isGuilty: false,
 		context: {
 			background: 'Married to Thomas for 8 years, second marriage',
 			personality: 'Sophisticated and composed, with underlying stress',

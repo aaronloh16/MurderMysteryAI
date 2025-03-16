@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { 
-  AgentState, 
-  VoiceAssistantControlBar, 
-  DisconnectButton,
+import {
+	AgentState,
+	VoiceAssistantControlBar,
+	DisconnectButton,
 } from '@livekit/components-react';
 import { useKrispNoiseFilter } from '@livekit/components-react/krisp';
 import { CloseIcon } from '../CloseIcon';
@@ -17,9 +17,15 @@ export function ControlBar(props: {
 	agentState: AgentState;
 }) {
 	const krisp = useKrispNoiseFilter();
+	const hasEnabledNoiseFilter = useRef(false);
+
 	useEffect(() => {
-		krisp.setNoiseFilterEnabled(true);
-	}, [krisp]);
+		// Only enable noise filter once to avoid infinite re-renders
+		if (!hasEnabledNoiseFilter.current) {
+			krisp.setNoiseFilterEnabled(true);
+			hasEnabledNoiseFilter.current = true;
+		}
+	}, []); // Empty dependency array - run only once
 
 	return (
 		<div className="relative h-[100px]">
@@ -57,4 +63,4 @@ export function ControlBar(props: {
 			</AnimatePresence>
 		</div>
 	);
-} 
+}

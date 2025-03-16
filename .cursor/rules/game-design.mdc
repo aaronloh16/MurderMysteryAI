@@ -1,0 +1,44 @@
+---
+description: Game design principles for Murder Mystery AI
+globs: 
+alwaysApply: false
+---
+
+# Murder Mystery AI Game Design Principles
+
+## Core Experience
+- Focus on natural voice interactions with suspects
+- Prioritize immersion and character believability
+- Make evidence collection intuitive and rewarding
+- Create a satisfying "aha!" moment when solving the case
+
+## AI Character Design
+- Suspects should have consistent personalities
+- Responses should reflect the character's background and motives
+- Under pressure, suspects may reveal hints about their secrets
+- Guilty suspects should behave differently than innocent ones
+- Each suspect should have unique speech patterns and knowledge
+
+## Evidence System
+- Evidence should be discoverable through clever questioning
+- Contradictions should be highlighted and trackable
+- Players should be able to reference evidence during interrogations
+- Evidence collection should feel like detective work, not a checklist
+
+## Accusation System
+- Accusation should be a significant decision
+- Feedback should reflect the strength of the player's case
+- Correct accusations with weak evidence should feel less satisfying
+- Incorrect accusations should provide guidance for further investigation
+
+## Atmosphere
+- UI should reinforce the detective mystery theme
+- Visual elements should support the narrative
+- Audio elements should enhance immersion
+- Transitions and animations should be subtle and appropriate
+
+## Accessibility
+- Provide text alternatives to voice interaction
+- Ensure sufficient contrast for readability
+- Design with colorblind accessibility in mind
+- Include clear instructions and guidance for players 
