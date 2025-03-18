@@ -14,53 +14,110 @@
   <a href="https://blog.livekit.io/">Blog</a>
 </p>
 
-A basic example of a voice agent using LiveKit and Python.
+# Murder Mystery AI - Voice Agent
 
-## Dev Setup
+This is the voice agent backend for the Murder Mystery AI game. It handles the AI character responses and voice interactions.
 
-Clone the repository and install dependencies to a virtual environment:
+## Features
 
-```console
-# Linux/macOS
-cd voice-pipeline-agent-python
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python3 agent.py download-files
-```
+- Voice-powered AI characters with distinct personalities
+- Dynamic response generation based on character profiles
+- Real-time speech-to-text and text-to-speech conversion
+- Room-based interactions through LiveKit
 
-<details>
-  <summary>Windows instructions (click to expand)</summary>
-  
-```cmd
-:: Windows (CMD/PowerShell)
-cd voice-pipeline-agent-python
-python3 -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-```
-</details>
+## Tech Stack
 
+- **Python 3.9+**: Core programming language
+- **LiveKit Agents**: Framework for voice agent development
+- **OpenAI GPT-4**: AI model for character responses
+- **Deepgram**: Speech-to-text conversion
+- **Cartesia**: Text-to-speech conversion
+- **Silero**: Voice activity detection
+- **Turn Detector**: End-of-utterance prediction model
 
-Set up the environment by copying `.env.example` to `.env.local` and filling in the required values:
+## Setup Instructions
 
-- `LIVEKIT_URL`
-- `LIVEKIT_API_KEY`
-- `LIVEKIT_API_SECRET`
-- `OPENAI_API_KEY`
-- `CARTESIA_API_KEY`
-- `DEEPGRAM_API_KEY`
+### Prerequisites
 
-You can also do this automatically using the LiveKit CLI:
+- Python 3.9 or higher
+- API keys for OpenAI, Deepgram, Cartesia, and LiveKit
 
-```console
-lk app env
-```
+### Installation
 
-Run the agent:
+1. Create a virtual environment:
 
-```console
+   ```bash
+   # For macOS/Linux
+   python3 -m venv venv
+   source venv/bin/activate
+
+   # For Windows
+   python -m venv venv
+   venv\Scripts\activate
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Download required model files (important!):
+
+   ```bash
+   python3 agent.py download-files
+   ```
+
+   This downloads the turn detector model to your local cache.
+
+4. Create a `.env.local` file with your API keys:
+   ```
+   CARTESIA_API_KEY="your_cartesia_api_key"
+   DEEPGRAM_API_KEY="your_deepgram_api_key"
+   LIVEKIT_API_KEY="your_livekit_api_key"
+   LIVEKIT_API_SECRET="your_livekit_api_secret"
+   LIVEKIT_URL="your_livekit_url"
+   OPENAI_API_KEY="your_openai_api_key"
+   API_BASE_URL=http://localhost:3000/api
+   ```
+
+### Running the Agent
+
+Start the agent in development mode (with auto-reload):
+
+```bash
 python3 agent.py dev
 ```
 
-This agent requires a frontend application to communicate with. You can use one of our example frontends in [livekit-examples](https://github.com/livekit-examples/), create your own following one of our [client quickstarts](https://docs.livekit.io/realtime/quickstarts/), or test instantly against one of our hosted [Sandbox](https://cloud.livekit.io/projects/p_/sandbox) frontends.
+Or in production mode:
+
+```bash
+python3 agent.py start
+```
+
+## Troubleshooting
+
+### "Could not find model livekit/turn-detector" Error
+
+If you see this error, run:
+
+```bash
+python3 agent.py download-files
+```
+
+## Commands
+
+- `python3 agent.py dev`: Start in development mode
+- `python3 agent.py start`: Start in production mode
+- `python3 agent.py connect`: Connect to a specific room
+- `python3 agent.py download-files`: Download required model files
+
+## How It Works
+
+1. The agent connects to a LiveKit room
+2. When a user speaks, the speech is converted to text using Deepgram
+3. The text is sent to OpenAI's GPT-4 with the character's profile as context
+4. GPT-4 generates a response in the character's voice
+5. The response is converted to speech using Cartesia
+6. The speech is played back to the user
+

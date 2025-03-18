@@ -6,7 +6,6 @@ An interactive murder mystery game where you interrogate AI suspects using your 
 
 - **Voice-Powered Interrogation**: Natural voice conversations with AI suspects
 - **Dynamic Characters**: Multiple suspects with unique personalities, backgrounds, and secrets
-- **Evidence Collection**: Uncover clues through strategic questioning
 - **Accusation System**: Make accusations when you think you've solved the case
 - **Responsive UI**: Clean, modern interface that works on desktop and mobile
 
@@ -17,6 +16,23 @@ An interactive murder mystery game where you interrogate AI suspects using your 
 - **AI Backend**: Python-based agent using OpenAI, Deepgram, and Cartesia
 - **Speech Technologies**: Speech-to-text, text-to-speech, voice activity detection
 
+## Project Structure
+
+```
+MurderMysteryAI/
+├── frontend/         # Next.js application
+│   ├── app/          # Next.js App Router pages
+│   ├── components/   # Reusable React components
+│   ├── data/         # Game data and state
+│   └── public/       # Static assets
+├── agent/            # Python backend
+│   └── agent.py      # Main agent logic
+└── memory-bank/      # Project documentation
+    ├── architecture.md
+    ├── game-design-document.md
+    └── tech-stack.md
+```
+
 ## Getting Started
 
 ### Prerequisites
@@ -24,36 +40,29 @@ An interactive murder mystery game where you interrogate AI suspects using your 
 - Node.js (18.x or higher)
 - Python (3.9 or higher)
 - pnpm (recommended) or npm
-- API keys for LiveKit, OpenAI, Deepgram, and Cartesia
+- API keys for:
+  - LiveKit
+  - OpenAI
+  - Deepgram
+  - Cartesia
 
-### Setup
+### Frontend Setup
 
-1. Clone the repository:
-
-```bash
-git clone https://github.com/yourusername/murder-mystery-ai.git
-cd murder-mystery-ai
-```
-
-2. Install frontend dependencies:
+1. Navigate to the frontend directory:
 
 ```bash
 cd frontend
-pnpm install
 ```
 
-3. Install backend dependencies:
+2. Install dependencies:
 
 ```bash
-cd ../agent
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
+pnpm install
+# or
+npm install
 ```
 
-4. Create environment files:
-
-Frontend (`.env.local`):
+3. Create a `.env.local` file with your LiveKit credentials:
 
 ```
 LIVEKIT_API_KEY="your_livekit_api_key"
@@ -61,7 +70,49 @@ LIVEKIT_API_SECRET="your_livekit_api_secret"
 LIVEKIT_URL="your_livekit_url"
 ```
 
-Backend (`.env.local`):
+4. Start the development server:
+
+```bash
+pnpm dev
+# or
+npm run dev
+```
+
+The frontend will be available at http://localhost:3000
+
+### Agent Setup
+
+1. Navigate to the agent directory:
+
+```bash
+cd agent
+```
+
+2. Create a Python virtual environment:
+
+```bash
+# For macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
+
+# For Windows
+python -m venv venv
+venv\Scripts\activate
+```
+
+3. Install Python dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Download required model files (important):
+
+```bash
+python3 agent.py download-files
+```
+
+5. Create a `.env.local` file with your API credentials:
 
 ```
 CARTESIA_API_KEY="your_cartesia_api_key"
@@ -72,76 +123,39 @@ LIVEKIT_URL="your_livekit_url"
 OPENAI_API_KEY="your_openai_api_key"
 ```
 
-5. Start development servers:
-
-Frontend:
+6. Start the agent:
 
 ```bash
-cd frontend
-pnpm dev
+# For development with auto-reload
+python3 agent.py dev
+
+# For production
+python3 agent.py start
 ```
 
-Backend (in a separate terminal):
+## Troubleshooting
+
+### "Could not find model livekit/turn-detector" Error
+
+If you encounter this error, you need to download the model files:
 
 ```bash
-cd agent
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-python agent.py
+python3 agent.py download-files
 ```
 
-Visit http://localhost:3000 to start playing!
+This command downloads the required files for the turn detector model to `~/.cache/huggingface/`.
 
-## Deployment Options
+### Architecture Compatibility Issues
 
-### Deployment Without a Database
+If you're using a Mac with Apple Silicon (M1/M2/M3) and encounter architecture-related errors with `psutil`, reinstall it with:
 
-This application can be deployed without a database as it currently doesn't require persistent storage between sessions. Here's how to deploy it:
+```bash
+python3 -m pip install --force-reinstall --no-binary :all: psutil==5.9.8
+```
 
-#### Frontend (Vercel/Netlify)
+## Deployment
 
-1. Push your code to a GitHub repository
-2. Connect your repository to Vercel or Netlify
-3. Set the environment variables in the deployment platform
-4. Deploy!
-
-#### Backend (Cloud Options)
-
-The agent backend can be deployed in several ways:
-
-**Option 1: LiveKit Cloud**
-
-- Sign up for [LiveKit Cloud](https://livekit.io/cloud)
-- Deploy your agent there directly
-
-**Option 2: Self-hosted on VPS/EC2**
-
-- Set up a VM on AWS EC2, DigitalOcean, etc.
-- Install Python and dependencies
-- Run the agent with PM2 or a similar process manager
-
-**Option 3: Containerized with Docker**
-
-- Create a Dockerfile for the agent
-- Deploy to a container service like ECS, GKE, etc.
-
-### Adding a Database (Future Enhancement)
-
-For enhanced functionality, you might want to add a database later:
-
-- **User Accounts**: Allow players to save progress
-- **Game History**: Track previous playthroughs
-- **Leaderboards**: Compare solving times
-- **Custom Cases**: Create and share custom mysteries
-
-Recommended database options:
-
-- Supabase (Postgres-based, easy to integrate)
-- Firebase (NoSQL, good for rapid development)
-- MongoDB Atlas (document database, flexible schema)
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+Detailed deployment instructions can be found in the [deployment guide](memory-bank/deployment-guide.md).
 
 ## License
 
