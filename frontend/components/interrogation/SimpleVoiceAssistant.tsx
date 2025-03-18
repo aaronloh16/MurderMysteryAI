@@ -1,5 +1,9 @@
 import { useEffect } from 'react';
-import { AgentState, BarVisualizer, useVoiceAssistant } from '@livekit/components-react';
+import {
+	AgentState,
+	BarVisualizer,
+	useVoiceAssistant,
+} from '@livekit/components-react';
 
 /**
  * SimpleVoiceAssistant Component
@@ -25,4 +29,4 @@ export function SimpleVoiceAssistant(props: {
 			/>
 		</div>
 	);
-} 
+}

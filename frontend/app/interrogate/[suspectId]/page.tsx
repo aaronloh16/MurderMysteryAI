@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { suspects } from '@/data/suspects';
+import { useSuspect } from '@/hooks/useData';
 
 import {
 	LiveKitRoom,
@@ -30,8 +30,8 @@ export default function InterrogationPage() {
 	const params = useParams();
 	const suspectId = params.suspectId as string;
 
-	// Get suspect data
-	const suspect = suspects[suspectId];
+	// Get suspect data using our data hook
+	const { suspect, loading, error } = useSuspect(suspectId);
 
 	// State to store LiveKit connection information
 	const [connectionDetails, updateConnectionDetails] = useState<
@@ -58,6 +58,32 @@ export default function InterrogationPage() {
 		const connectionDetailsData = await response.json();
 		updateConnectionDetails(connectionDetailsData);
 	}, [suspectId]);
+
+	if (loading) {
+		return (
+			<div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+				<div className="animate-pulse text-xl text-gray-400">
+					Loading suspect data...
+				</div>
+			</div>
+		);
+	}
+
+	if (error || !suspect) {
+		return (
+			<div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+				<div className="text-red-500 text-xl">
+					Error loading suspect data. Please try again later.
+					<button
+						onClick={() => router.push('/story')}
+						className="block mt-4 mx-auto bg-red-800 hover:bg-red-700 px-4 py-2 rounded"
+					>
+						Back to Story
+					</button>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="min-h-screen bg-gray-900 text-white">
@@ -102,7 +128,7 @@ export default function InterrogationPage() {
 							<h1 className="text-2xl font-bold mb-2">{suspect.name}</h1>
 							<p className="text-gray-300 mb-2">{suspect.role}</p>
 							<p className="text-gray-400 text-sm">
-								{suspect.context.background}
+								{suspect.context?.background}
 							</p>
 						</div>
 					</div>
