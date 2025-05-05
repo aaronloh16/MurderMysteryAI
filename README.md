@@ -114,25 +114,3 @@ python3 agent.py dev
 # For production
 python3 agent.py start
 ```
-
-## Troubleshooting
-
-### "Could not find model livekit/turn-detector" Error
-
-If you encounter this error, you need to download the model files:
-
-```bash
-python3 agent.py download-files
-```
-
-This command downloads the required files for the turn detector model to `~/.cache/huggingface/`.
-
-### Architecture Compatibility Issues
-
-If you're using a Mac with Apple Silicon (M1/M2/M3) and encounter architecture-related errors with `psutil`, reinstall it with:
-
-```bash
-python3 -m pip install --force-reinstall --no-binary :all: psutil==5.9.8
-```
-
-
