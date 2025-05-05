@@ -1,6 +1,6 @@
 # Murder Mystery AI
 
-An interactive murder mystery game where you interrogate AI suspects using your voice and solve the case by finding the real culprit.
+An interactive murder mystery game where you interrogate AI suspects using your voice and solve the case by finding the real culprit. Wanted to try out voice agents as well as test cursor's (AI IDE) capeabilities :)
 
 ## Features
 
@@ -16,24 +16,6 @@ An interactive murder mystery game where you interrogate AI suspects using your 
 - **AI Backend**: Python-based agent using OpenAI, Deepgram, and Cartesia
 - **Speech Technologies**: Speech-to-text, text-to-speech, voice activity detection
 
-## Project Structure
-
-```
-MurderMysteryAI/
-├── frontend/         # Next.js application
-│   ├── app/          # Next.js App Router pages
-│   ├── components/   # Reusable React components
-│   ├── data/         # Game data and state
-│   └── public/       # Static assets
-├── agent/            # Python backend
-│   └── agent.py      # Main agent logic
-└── memory-bank/      # Project documentation
-    ├── architecture.md
-    ├── game-design-document.md
-    └── tech-stack.md
-```
-
-## Getting Started
 
 ### Prerequisites
 
@@ -153,20 +135,4 @@ If you're using a Mac with Apple Silicon (M1/M2/M3) and encounter architecture-r
 python3 -m pip install --force-reinstall --no-binary :all: psutil==5.9.8
 ```
 
-## Deployment
 
-Detailed deployment instructions can be found in the [deployment guide](memory-bank/deployment-guide.md).
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- LiveKit for their excellent SDK
-- OpenAI for the language model capabilities
-- Deepgram and Cartesia for speech technologies
-
-<p className="text-gray-300 mb-4">
-    Tech mogul Thomas Richardson has been found dead in his office at TechVision headquarters. Four suspects were in the building that night, each with their own motives.
-</p>
