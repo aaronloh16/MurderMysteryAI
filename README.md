@@ -1,6 +1,6 @@
 # Murder Mystery AI
 
-![Screenshot](./assets/screenshot.png)
+![landing page](frontend/data/image.png)
 
 An interactive murder mystery game where you interrogate AI suspects using your voice and solve the case by finding the real culprit. Wanted to try out voice agents as well as test cursor's (AI IDE) capeabilities :)
 
