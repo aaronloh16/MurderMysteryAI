@@ -1,118 +1,61 @@
 # Murder Mystery AI
 
-![landing page](frontend/data/image.png)
+![Murder Mystery AI Interface](frontend/data/image.png)
 
-An interactive murder mystery game where you interrogate AI suspects using your voice and solve the case by finding the real culprit. Wanted to try out voice agents as well as test cursor's (AI IDE) capeabilities :)
+A voice-powered murder mystery game where players interrogate AI suspects through natural conversation to solve complex cases. Built to explore the intersection of conversational AI, real-time voice processing, and interactive storytelling.
 
-## Features
+## Overview
 
-- **Voice-Powered Interrogation**: Natural voice conversations with AI suspects
-- **Dynamic Characters**: Multiple suspects with unique personalities, backgrounds, and secrets
-- **Accusation System**: Make accusations when you think you've solved the case
-- **Responsive UI**: Clean, modern interface that works on desktop and mobile
+Players use voice commands to question AI-driven suspects, each with distinct personalities, backstories, and secrets. The game combines speech recognition, natural language processing, and text-to-speech to create immersive interrogation experiences that adapt to player questioning styles.
 
-## Tech Stack
+## Technical Features
 
-- **Frontend**: Next.js, TypeScript, Tailwind CSS
-- **Voice Interface**: LiveKit SDK for real-time audio
-- **AI Backend**: Python-based agent using OpenAI, Deepgram, and Cartesia
-- **Speech Technologies**: Speech-to-text, text-to-speech, voice activity detection
+**Real-Time Voice Processing**
+- Bidirectional voice communication with sub-200ms latency
+- Voice activity detection and conversation turn management
+- Multi-speaker audio processing and isolation
 
+**AI-Driven Characters**
+- Dynamic personality modeling with persistent memory systems
+- Context-aware response generation maintaining character consistency
+- Adaptive dialogue that responds to investigation patterns
+
+**Game Logic**
+- Evidence tracking and deduction scoring algorithms
+- Multi-path narrative branching based on player choices
+- Real-time accusation validation and case resolution
+
+## Architecture
+
+**Frontend**: Next.js with TypeScript, real-time audio via LiveKit SDK
+**Voice Pipeline**: Deepgram (STT) → OpenAI (LLM) → Cartesia (TTS)
+**Infrastructure**: Python-based agent system with WebRTC for low-latency communication
+
+## Quick Start
 
 ### Prerequisites
-
-- Node.js (18.x or higher)
-- Python (3.9 or higher)
-- pnpm (recommended) or npm
-- API keys for:
-  - LiveKit
-  - OpenAI
-  - Deepgram
-  - Cartesia
-
-### Frontend Setup
-
-1. Navigate to the frontend directory:
-
 ```bash
-cd frontend
+Node.js 18+, Python 3.9+, pnpm
+API keys: LiveKit, OpenAI, Deepgram, Cartesia
 ```
 
-2. Install dependencies:
-
+### Setup
 ```bash
-pnpm install
-# or
-npm install
-```
-
-3. Create a `.env.local` file with your LiveKit credentials:
-
-```
-LIVEKIT_API_KEY="your_livekit_api_key"
-LIVEKIT_API_SECRET="your_livekit_api_secret"
-LIVEKIT_URL="your_livekit_url"
-```
-
-4. Start the development server:
-
-```bash
+# Frontend
+cd frontend && pnpm install
+# Add LiveKit credentials to .env.local
 pnpm dev
-# or
-npm run dev
-```
 
-The frontend will be available at http://localhost:3000
-
-### Agent Setup
-
-1. Navigate to the agent directory:
-
-```bash
-cd agent
-```
-
-2. Create a Python virtual environment:
-
-```bash
-# For macOS/Linux
-python3 -m venv venv
-source venv/bin/activate
-
-# For Windows
-python -m venv venv
-venv\Scripts\activate
-```
-
-3. Install Python dependencies:
-
-```bash
+# Agent
+cd agent && python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
-```
-
-4. Download required model files (important):
-
-```bash
 python3 agent.py download-files
-```
-
-5. Create a `.env.local` file with your API credentials:
-
-```
-CARTESIA_API_KEY="your_cartesia_api_key"
-DEEPGRAM_API_KEY="your_deepgram_api_key"
-LIVEKIT_API_KEY="your_livekit_api_key"
-LIVEKIT_API_SECRET="your_livekit_api_secret"
-LIVEKIT_URL="your_livekit_url"
-OPENAI_API_KEY="your_openai_api_key"
-```
-
-6. Start the agent:
-
-```bash
-# For development with auto-reload
+# Add API credentials to .env.local
 python3 agent.py dev
-
-# For production
-python3 agent.py start
 ```
+
+Access at `http://localhost:3000`
+
+---
+
+**Built to explore voice AI applications in interactive media and test real-time conversation systems at scale.**
