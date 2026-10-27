@@ -1,0 +1,198 @@
+@import 'tailwindcss';
+
+/*
+ * Noir palette. One deliberate theme: the game is set at night.
+ * Text contrast is checked against --ink (all body text >= 7:1, muted >= 4.5:1).
+ */
+@theme {
+  --color-ink: #0c0b0a;
+  --color-ink-2: #141210;
+  --color-ink-3: #1d1a17;
+  --color-smoke: #2b2723;
+  --color-line: #3a342e;
+  --color-cream: #efe7d6;
+  --color-fog: #a39a8c;
+  --color-paper: #e9dfc9;
+  --color-paper-2: #d8cab0;
+  --color-paper-ink: #2a221d;
+  --color-brass: #c9a45c;
+  --color-brass-2: #e2c27f;
+  --color-blood: #a3242a;
+  --color-blood-2: #d0393f;
+  --color-cork: #6b4f35;
+
+  --font-display: var(--font-playfair), 'Times New Roman', serif;
+  --font-type: var(--font-special-elite), 'Courier New', monospace;
+  --font-sans: var(--font-plex), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-drop: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  --animate-drop-in: drop-in 520ms var(--ease-drop) both;
+  --animate-fade-up: fade-up 600ms var(--ease-out-quint) both;
+  --animate-flicker: flicker 6s linear infinite;
+  --animate-sway: sway 7s ease-in-out infinite;
+  --animate-caret: caret 1s steps(2) infinite;
+  --animate-stamp: stamp 420ms var(--ease-drop) both;
+
+  @keyframes drop-in {
+    from { opacity: 0; transform: translateY(-14px) rotate(var(--tilt, 0deg)) scale(1.04); }
+    to { opacity: 1; transform: translateY(0) rotate(var(--tilt, 0deg)) scale(1); }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    92% { opacity: 1; }
+    93% { opacity: 0.75; }
+    94% { opacity: 1; }
+    96% { opacity: 0.85; }
+    97% { opacity: 1; }
+  }
+  @keyframes sway {
+    0%, 100% { transform: rotate(-1.2deg); }
+    50% { transform: rotate(1.2deg); }
+  }
+  @keyframes caret {
+    to { visibility: hidden; }
+  }
+  @keyframes stamp {
+    from { opacity: 0; transform: scale(1.8) rotate(-14deg); }
+    to { opacity: 1; transform: scale(1) rotate(-8deg); }
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    scrollbar-color: var(--color-line) transparent;
+  }
+  body {
+    background: var(--color-ink);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-blood);
+    color: var(--color-cream);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brass-2);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  dialog::backdrop {
+    background: rgb(5 4 3 / 0.78);
+    backdrop-filter: blur(3px);
+  }
+}
+
+@layer components {
+  /* Film grain over everything. Pointer-transparent, decorative. */
+  .grain::after {
+    content: '';
+    position: fixed;
+    inset: -50%;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 1.2s steps(6) infinite;
+  }
+  @keyframes grain {
+    0% { transform: translate(0, 0); }
+    20% { transform: translate(-3%, 2%); }
+    40% { transform: translate(2%, -4%); }
+    60% { transform: translate(-4%, -1%); }
+    80% { transform: translate(3%, 3%); }
+    100% { transform: translate(0, 0); }
+  }
+
+  /* Light through venetian blinds. */
+  .blinds {
+    background:
+      repeating-linear-gradient(
+        172deg,
+        rgb(239 231 214 / 0.07) 0 22px,
+        transparent 22px 46px
+      );
+    mask-image: radial-gradient(ellipse 70% 60% at 70% 30%, black 10%, transparent 70%);
+  }
+
+  .vignette {
+    background: radial-gradient(ellipse at 50% 40%, transparent 35%, rgb(0 0 0 / 0.75) 100%);
+  }
+
+  .paper {
+    background-color: var(--color-paper);
+    color: var(--color-paper-ink);
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgb(255 255 255 / 0.35), transparent 60%),
+      radial-gradient(ellipse at 90% 100%, rgb(120 90 50 / 0.18), transparent 55%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .18 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  }
+
+  .cork {
+    background-color: #5d4430;
+    background-image:
+      radial-gradient(rgb(0 0 0 / 0.22) 1px, transparent 1.5px),
+      radial-gradient(rgb(255 220 170 / 0.08) 1px, transparent 1.5px),
+      linear-gradient(180deg, rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.35));
+    background-size: 7px 7px, 11px 11px, 100% 100%;
+    background-position: 0 0, 3px 5px, 0 0;
+  }
+
+  .pin {
+    width: 12px;
+    height: 12px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 35% 30%, #ff8a80, var(--color-blood) 55%, #4a0d10);
+    box-shadow: 0 2px 2px rgb(0 0 0 / 0.5);
+  }
+
+  .stamp {
+    border: 3px double currentColor;
+    border-radius: 4px;
+    padding: 2px 10px;
+    font-family: var(--font-type);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    mix-blend-mode: multiply;
+  }
+
+  .lamp-glow {
+    background: radial-gradient(ellipse 55% 60% at 50% 0%, rgb(226 194 127 / 0.22), transparent 70%);
+  }
+
+  .typed-caret::after {
+    content: '\258C';
+    margin-left: 1px;
+    color: var(--color-brass);
+    animation: var(--animate-caret);
+  }
+
+  .scroll-thin {
+    scrollbar-width: thin;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .grain::after {
+    animation: none;
+  }
+}
