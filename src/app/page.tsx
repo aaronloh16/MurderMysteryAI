@@ -27,7 +27,7 @@ export default function Home() {
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-center gap-2 px-4 sm:gap-6">
             {lineup.map((s, i) => (
               <div key={s.id} className="relative animate-fade-up" style={{ animationDelay: `${200 + i * 120}ms` }}>
-                <Portrait spec={s.portrait} className="h-[30svh] w-auto max-w-[22vw] opacity-80 sm:h-[38svh]" />
+                <Portrait spec={s.portrait} className="aspect-[4/5] h-[30svh] w-auto max-w-[22vw] opacity-80 sm:h-[38svh]" />
                 <span className="absolute -bottom-0 left-1/2 -translate-x-1/2 translate-y-full pt-1 font-type text-xs text-fog">{i + 1}</span>
               </div>
             ))}

@@ -20,7 +20,7 @@ export function Game({ c, caps }: { c: PublicCase; caps: Capabilities }) {
   const { state, clues } = game;
   const [panel, setPanel] = useState<Panel>(null);
   const suspect = c.suspects.find((s) => s.id === state.active) ?? c.suspects[0]!;
-  const briefingOpen = !state.introSeen && !state.verdict;
+  const briefingOpen = Boolean(state.hydrated) && !state.introSeen && !state.verdict;
 
   const openClue = (clue: PublicClue) => {
     game.markSeen([clue.id]);
@@ -79,7 +79,7 @@ export function Game({ c, caps }: { c: PublicCase; caps: Capabilities }) {
         </nav>
       </header>
 
-      <main id="main" className="grid min-h-0 flex-1 grid-cols-1 gap-3 p-3 lg:grid-cols-[15rem_minmax(0,1fr)_21rem] lg:gap-4 lg:p-4 xl:grid-cols-[16rem_minmax(0,1fr)_25rem]">
+      <main id="main" className="grid min-h-0 flex-1 grid-cols-1 grid-rows-[auto_minmax(0,1fr)] gap-3 lg:grid-rows-1 p-3 lg:grid-cols-[15rem_minmax(0,1fr)_21rem] lg:gap-4 lg:p-4 xl:grid-cols-[16rem_minmax(0,1fr)_25rem]">
         {/* Suspect roster: a strip on small screens, a column on large ones. */}
         <nav aria-label="Suspects" className="min-h-0">
           <h2 className="sr-only">Suspects</h2>

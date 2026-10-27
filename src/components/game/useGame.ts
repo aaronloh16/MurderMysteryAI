@@ -18,6 +18,8 @@ export interface Msg {
 
 export interface GameState {
   v: 2;
+  /** False until saved progress has been read from this browser. Not persisted. */
+  hydrated?: boolean;
   introSeen: boolean;
   active: string;
   /** Earned testimony and documents, keyed by id. Scene clues come from the case. */
@@ -61,8 +63,9 @@ function initial(c: PublicCase): GameState {
 function reducer(s: GameState, a: Action): GameState {
   switch (a.type) {
     case 'hydrate':
+      return { ...a.state, hydrated: true };
     case 'reset':
-      return a.state;
+      return { ...a.state, hydrated: true };
     case 'intro-seen':
       return { ...s, introSeen: true };
     case 'select':
@@ -125,20 +128,19 @@ function load(c: PublicCase): GameState | null {
 
 export function useGame(c: PublicCase) {
   const [state, dispatch] = useReducer(reducer, c, initial);
-  const hydrated = useRef(false);
   const busy = useRef(false);
   const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    const saved = load(c);
-    if (saved) dispatch({ type: 'hydrate', state: saved });
-    hydrated.current = true;
+    dispatch({ type: 'hydrate', state: load(c) ?? initial(c) });
   }, [c]);
 
   useEffect(() => {
-    if (!hydrated.current) return;
+    if (!state.hydrated) return;
     try {
-      window.localStorage.setItem(storageKey(c.id), JSON.stringify(state));
+      const { hydrated: _omit, ...persisted } = state;
+      void _omit;
+      window.localStorage.setItem(storageKey(c.id), JSON.stringify(persisted));
     } catch {
       /* storage unavailable: the game still works for this session */
     }

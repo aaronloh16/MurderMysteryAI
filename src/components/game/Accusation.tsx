@@ -86,7 +86,7 @@ export function Accusation({ c, clues, discovered, onClose, onVerdict }: Props) 
               {c.suspects.map((s) => (
                 <label
                   key={s.id}
-                  className={`group cursor-pointer rounded-sm border-2 p-2 transition-colors ${
+                  className={`group cursor-pointer rounded-sm border-2 p-2 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-paper-ink ${
                     suspectId === s.id ? 'border-blood bg-blood/10' : 'border-transparent hover:border-paper-ink/25'
                   }`}
                 >
@@ -108,7 +108,7 @@ export function Accusation({ c, clues, discovered, onClose, onVerdict }: Props) 
             {c.motives.map((m) => (
               <label
                 key={m.id}
-                className={`flex cursor-pointer items-start gap-3 rounded-sm border-2 px-4 py-3 transition-colors ${
+                className={`flex cursor-pointer items-start gap-3 rounded-sm border-2 px-4 py-3 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-paper-ink ${
                   motiveId === m.id ? 'border-blood bg-blood/10' : 'border-paper-ink/15 hover:border-paper-ink/35'
                 }`}
               >
