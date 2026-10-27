@@ -268,7 +268,7 @@ function ModeBadge({ caps, engine }: { caps: Capabilities; engine: 'live' | 'scr
 function CaseFile({ c, onClose, first = false }: { c: PublicCase; onClose: () => void; first?: boolean }) {
   return (
     <article className="paper relative max-h-[90dvh] overflow-y-auto rounded-sm px-6 pb-7 pt-8 shadow-2xl sm:px-9">
-      <span className="stamp absolute right-5 top-5 rotate-[-8deg] text-xs text-blood" aria-hidden>
+      <span className="stamp absolute right-4 top-4 rotate-[-8deg] text-[10px] text-blood sm:right-5 sm:top-5 sm:text-xs" aria-hidden>
         Confidential
       </span>
       {!first && (
@@ -276,7 +276,7 @@ function CaseFile({ c, onClose, first = false }: { c: PublicCase; onClose: () =>
           <CloseButton onClick={onClose} dark />
         </div>
       )}
-      <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-paper-ink/60">Case file · {c.era}</p>
+      <p className="pr-28 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-paper-ink/60 sm:pr-32">Case file · {c.era}</p>
       <h2 className="mt-2 pr-24 font-display text-3xl leading-tight text-paper-ink">{c.title}</h2>
       <p className="mt-1 text-sm text-paper-ink/75">{c.location}</p>
       <div className="mt-5 space-y-3 font-type text-[15px] leading-relaxed text-paper-ink">
