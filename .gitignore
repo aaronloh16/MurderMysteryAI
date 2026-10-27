@@ -1,32 +1,25 @@
-# Dependencies
+# deps
 node_modules/
 .pnpm-store/
 
-# Environment
-.env
-.env.local
-.env.*.local
-
-# IDE
-.vscode/
-.idea/
-*.swp
-.DS_Store
-
-# Build outputs
-dist/
-build/
+# next
 .next/
+out/
+build/
+next-env.d.ts
+*.tsbuildinfo
 
-# Project-specific
-memory-bank/
-.cursor/
-*.log
+# env (never commit secrets; .env.example is the template)
+.env
+.env.*
+!.env.example
 
-# OS-specific files
+# platform
+.vercel
+
+# misc
 .DS_Store
 Thumbs.db
-
-# Local development files
-.vercel
-.turbo
+*.log
+.vscode/
+.idea/
